@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YTMP3</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1>YTMP3</h1>
+          <p>Téléchargements YouTube en MP3 ou MP4.</p>
+        </div>
+        <nav class="tabs" aria-label="Navigation">
+          <button class="tab active" data-tab="download">Télécharger</button>
+          <button class="tab" data-tab="options">Options</button>
+        </nav>
+      </header>
+
+      <section class="view active" id="download-view">
+        <form class="input-panel" id="add-form">
+          <label for="url-input">URL YouTube</label>
+          <div class="url-row">
+            <input id="url-input" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off" required />
+            <button type="submit" class="primary">ADD</button>
+          </div>
+
+          <div class="format-grid">
+            <label>
+              Format
+              <select id="format-select">
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+              </select>
+            </label>
+            <label>
+              Qualité
+              <select id="quality-select"></select>
+            </label>
+          </div>
+        </form>
+
+        <section class="queue-panel">
+          <div class="queue-header">
+            <h2>En attente</h2>
+            <div class="actions">
+              <button type="button" id="clear-button" class="ghost">Vider</button>
+              <button type="button" id="download-button" class="primary">DOWNLOAD</button>
+            </div>
+          </div>
+          <div class="queue-list" id="queue-list"></div>
+          <p class="empty-state" id="empty-state">Aucune URL en attente.</p>
+        </section>
+      </section>
+
+      <section class="view" id="options-view">
+        <form class="options-panel" id="options-form">
+          <label>
+            Dossier de téléchargement
+            <div class="folder-row">
+              <input id="download-dir" type="text" readonly />
+              <button type="button" id="choose-folder" class="ghost">Choisir</button>
+              <button type="button" id="open-folder" class="ghost">Ouvrir</button>
+            </div>
+          </label>
+
+          <div class="format-grid">
+            <label>
+              Format par défaut
+              <select id="default-format">
+                <option value="mp3">MP3</option>
+                <option value="mp4">MP4</option>
+              </select>
+            </label>
+            <label>
+              Qualité MP3 par défaut
+              <select id="default-mp3-quality">
+                <option value="best">Meilleure</option>
+                <option value="320">320 kbps</option>
+                <option value="192">192 kbps</option>
+                <option value="128">128 kbps</option>
+              </select>
+            </label>
+            <label>
+              Qualité MP4 par défaut
+              <select id="default-mp4-quality">
+                <option value="best">Meilleure</option>
+                <option value="1080">1080p</option>
+                <option value="720">720p</option>
+                <option value="480">480p</option>
+                <option value="360">360p</option>
+              </select>
+            </label>
+          </div>
+
+          <button type="submit" class="primary save-button">Enregistrer</button>
+          <p class="option-note" id="option-status"></p>
+        </form>
+      </section>
+    </main>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
