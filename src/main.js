@@ -68,8 +68,8 @@ function createWindow() {
   Menu.setApplicationMenu(null);
 
   mainWindow = new BrowserWindow({
-    width: 920,
-    height: 680,
+    width: 940,
+    height: 700,
     resizable: false,
     maximizable: false,
     autoHideMenuBar: true,
