@@ -8,101 +8,139 @@
   </head>
   <body>
     <main class="app-shell">
-      <header class="topbar">
+      <aside class="sidebar">
         <div class="brand">
           <div class="logo" aria-hidden="true">
             <img src="../../assets/icon.png" alt="" />
           </div>
           <div>
             <h1>YTMP3</h1>
-            <p>Téléchargements YouTube en MP3 ou MP4.</p>
+            <p>Media downloader</p>
           </div>
         </div>
+
         <nav class="tabs" aria-label="Navigation">
-          <button class="tab active" data-tab="download">Télécharger</button>
-          <button class="tab" data-tab="options">Options</button>
+          <button class="tab active" data-tab="download" type="button">
+            <span class="tab-icon">↓</span>
+            Télécharger
+          </button>
+          <button class="tab" data-tab="options" type="button">
+            <span class="tab-icon">⚙</span>
+            Options
+          </button>
         </nav>
-      </header>
 
-      <section class="view active" id="download-view">
-        <form class="input-panel" id="add-form">
-          <label for="url-input">URL YouTube</label>
-          <div class="url-row">
-            <input id="url-input" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off" required />
-            <button type="submit" class="primary">ADD</button>
+        <div class="sidebar-footer">
+          <span class="status-dot"></span>
+          <span>Prêt</span>
+        </div>
+      </aside>
+
+      <section class="workspace">
+        <header class="workspace-header">
+          <div>
+            <p class="eyebrow">Conversion YouTube</p>
+            <h2 id="view-title">Télécharger</h2>
           </div>
+          <button type="button" id="open-folder" class="ghost compact-button">Ouvrir le dossier</button>
+        </header>
 
-          <div class="format-grid">
-            <label>
-              Format
-              <select id="format-select">
-                <option value="mp3">MP3</option>
-                <option value="mp4">MP4</option>
-              </select>
-            </label>
-            <label>
-              Qualité
-              <select id="quality-select"></select>
-            </label>
-          </div>
-        </form>
-
-        <section class="queue-panel">
-          <div class="queue-header">
-            <h2>En attente</h2>
-            <div class="actions">
-              <button type="button" id="clear-button" class="ghost">Vider</button>
-              <button type="button" id="download-button" class="primary">DOWNLOAD</button>
+        <section class="view active" id="download-view">
+          <form class="panel input-panel" id="add-form">
+            <div class="panel-heading">
+              <div>
+                <h3>Nouvelle requête</h3>
+                <p>Colle une URL, choisis le format, puis ajoute-la à la file.</p>
+              </div>
+              <button type="submit" class="primary compact-button">ADD</button>
             </div>
-          </div>
-          <div class="queue-list" id="queue-list"></div>
-          <p class="empty-state" id="empty-state">Aucune URL en attente.</p>
+
+            <label for="url-input">
+              URL YouTube
+              <input id="url-input" type="url" placeholder="https://www.youtube.com/watch?v=..." autocomplete="off" required />
+            </label>
+
+            <div class="format-grid">
+              <label>
+                Format
+                <select id="format-select">
+                  <option value="mp3">MP3</option>
+                  <option value="mp4">MP4</option>
+                </select>
+              </label>
+              <label>
+                Qualité
+                <select id="quality-select"></select>
+              </label>
+            </div>
+          </form>
+
+          <section class="panel queue-panel">
+            <div class="queue-header">
+              <div>
+                <h3>File d’attente</h3>
+                <p class="panel-subtitle">Les téléchargements se lancent dans l’ordre.</p>
+              </div>
+              <div class="actions">
+                <button type="button" id="clear-button" class="ghost compact-button">Vider</button>
+                <button type="button" id="download-button" class="primary compact-button">DOWNLOAD</button>
+              </div>
+            </div>
+            <div class="queue-list" id="queue-list"></div>
+            <p class="empty-state" id="empty-state">Aucune URL en attente.</p>
+          </section>
         </section>
-      </section>
 
-      <section class="view" id="options-view">
-        <form class="options-panel" id="options-form">
-          <label>
-            Dossier de téléchargement
-            <div class="folder-row">
-              <input id="download-dir" type="text" readonly />
-              <button type="button" id="choose-folder" class="ghost">Choisir</button>
-              <button type="button" id="open-folder" class="ghost">Ouvrir</button>
+        <section class="view" id="options-view">
+          <form class="panel options-panel" id="options-form">
+            <div class="panel-heading">
+              <div>
+                <h3>Préférences</h3>
+                <p>Configure le dossier et les valeurs utilisées par défaut.</p>
+              </div>
+              <button type="submit" class="primary compact-button save-button">Enregistrer</button>
             </div>
-          </label>
 
-          <div class="format-grid">
             <label>
-              Format par défaut
-              <select id="default-format">
-                <option value="mp3">MP3</option>
-                <option value="mp4">MP4</option>
-              </select>
+              Dossier de téléchargement
+              <div class="folder-row">
+                <input id="download-dir" type="text" readonly />
+                <button type="button" id="choose-folder" class="ghost compact-button">Choisir</button>
+              </div>
             </label>
-            <label>
-              Qualité MP3 par défaut
-              <select id="default-mp3-quality">
-                <option value="best">Meilleure</option>
-                <option value="320">320 kbps</option>
-                <option value="192">192 kbps</option>
-                <option value="128">128 kbps</option>
-              </select>
-            </label>
-            <label>
-              Qualité MP4 par défaut
-              <select id="default-mp4-quality">
-                <option value="best">Meilleure</option>
-                <option value="1080">1080p</option>
-                <option value="720">720p</option>
-                <option value="480">480p</option>
-                <option value="360">360p</option>
-              </select>
-            </label>
-          </div>
 
-          <button type="submit" class="primary save-button">Enregistrer</button>
-          <p class="option-note" id="option-status"></p>
-        </form>
+            <div class="settings-grid">
+              <label>
+                Format par défaut
+                <select id="default-format">
+                  <option value="mp3">MP3</option>
+                  <option value="mp4">MP4</option>
+                </select>
+              </label>
+              <label>
+                Qualité MP3
+                <select id="default-mp3-quality">
+                  <option value="best">Meilleure</option>
+                  <option value="320">320 kbps</option>
+                  <option value="192">192 kbps</option>
+                  <option value="128">128 kbps</option>
+                </select>
+              </label>
+              <label>
+                Qualité MP4
+                <select id="default-mp4-quality">
+                  <option value="best">Meilleure</option>
+                  <option value="1080">1080p</option>
+                  <option value="720">720p</option>
+                  <option value="480">480p</option>
+                  <option value="360">360p</option>
+                </select>
+              </label>
+            </div>
+
+            <p class="option-note" id="option-status"></p>
+          </form>
+        </section>
       </section>
     </main>
     <script src="./renderer.js"></script>
