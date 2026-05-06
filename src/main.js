@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, shell } = require('electron');
 const { spawn } = require('child_process');
 const fs = require('fs/promises');
 const fsSync = require('fs');
@@ -65,12 +65,15 @@ async function writeOptions(options) {
 }
 
 function createWindow() {
+  Menu.setApplicationMenu(null);
+
   mainWindow = new BrowserWindow({
     width: 920,
     height: 680,
-    minWidth: 760,
-    minHeight: 560,
-    backgroundColor: '#f6f5f1',
+    resizable: false,
+    maximizable: false,
+    autoHideMenuBar: true,
+    backgroundColor: '#0b0d12',
     title: 'YTMP3',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
