@@ -1,10 +1,10 @@
-# YTMP3
+# TubeDL
 
 Application Windows simple pour mettre plusieurs URL YouTube en attente, choisir un format MP3/MP4 avec une qualite, puis telecharger toute la file.
 
 ## Utilisation
 
-- Lancer le portable genere : `dist/YTMP3 0.1.0.exe`
+- Lancer le portable genere : `dist/TubeDL 0.1.0.exe`
 - En developpement : `npm start`
 - Rebuild portable : `npm run build:portable`
 

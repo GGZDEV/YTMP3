@@ -6,7 +6,7 @@ const path = require('path');
 const ffmpegStatic = require('ffmpeg-static');
 
 const DEFAULT_OPTIONS = {
-  downloadDir: path.join(app.getPath('downloads'), 'YTMP3'),
+  downloadDir: path.join(app.getPath('downloads'), 'TubeDL'),
   defaultFormat: 'mp3',
   defaultQuality: {
     mp3: 'best',
@@ -77,7 +77,7 @@ function createWindow() {
     autoHideMenuBar: true,
     backgroundColor: '#0d0b10',
     icon: appIcon,
-    title: 'YTMP3',
+    title: 'TubeDL',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,

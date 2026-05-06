@@ -21,7 +21,7 @@
   },
   "build": {
     "appId": "com.local.ytmp3",
-    "productName": "YTMP3",
+    "productName": "TubeDL",
     "directories": {
       "output": "dist"
     },

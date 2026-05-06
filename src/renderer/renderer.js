@@ -22,7 +22,6 @@ const state = {
 
 const elements = {
   tabs: document.querySelectorAll('.tab'),
-  viewTitle: document.querySelector('#view-title'),
   views: {
     download: document.querySelector('#download-view'),
     options: document.querySelector('#options-view')
@@ -48,7 +47,6 @@ const elements = {
 function setTab(tabName) {
   elements.tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === tabName));
   Object.entries(elements.views).forEach(([name, view]) => view.classList.toggle('active', name === tabName));
-  elements.viewTitle.textContent = tabName === 'options' ? 'Options' : 'Télécharger';
 }
 
 function setQualityOptions(format, selectedValue) {
