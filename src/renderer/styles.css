@@ -1,3 +1,35 @@
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../../assets/fonts/inter-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("../../assets/fonts/inter-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("../../assets/fonts/inter-latin-700-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../../assets/fonts/inter-latin-800-normal.woff2") format("woff2");
+}
+
 :root {
   color-scheme: dark;
   --bg: #090a0f;
@@ -33,7 +65,8 @@ body {
     radial-gradient(circle at 94% 96%, rgba(255, 157, 56, 0.12), transparent 30%),
     linear-gradient(145deg, #08090d, #11131b 55%, #090a0f);
   color: var(--text);
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-rendering: geometricPrecision;
 }
 
 button,
@@ -90,6 +123,7 @@ p {
   display: flex;
   align-items: center;
   gap: 12px;
+  text-align: left;
 }
 
 .logo {
@@ -110,6 +144,7 @@ h1 {
   font-size: 21px;
   line-height: 1;
   letter-spacing: 0;
+  text-align: left;
 }
 
 .brand p,
@@ -122,6 +157,7 @@ h1 {
 .brand p {
   margin-top: 5px;
   font-size: 12px;
+  text-align: left;
 }
 
 .tabs {
@@ -150,10 +186,9 @@ h1 {
 
 .tab.active {
   color: #ffffff;
-  background:
-    linear-gradient(135deg, rgba(255, 75, 110, 0.22), rgba(255, 157, 56, 0.16)),
-    rgba(255, 255, 255, 0.055);
+  background: rgba(255, 75, 110, 0.14);
   border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 3px 0 0 var(--accent);
 }
 
 .tab-icon {
@@ -168,6 +203,7 @@ h1 {
   gap: 8px;
   color: var(--muted);
   font-size: 12px;
+  text-align: left;
   padding-top: 14px;
   border-top: 1px solid var(--line);
 }
@@ -195,6 +231,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   min-height: 0;
+  text-align: left;
 }
 
 .eyebrow {
@@ -203,6 +240,7 @@ h1 {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  text-align: left;
 }
 
 h2 {
@@ -210,11 +248,13 @@ h2 {
   font-size: 24px;
   line-height: 1.05;
   letter-spacing: 0;
+  text-align: left;
 }
 
 h3 {
   font-size: 15px;
   letter-spacing: 0;
+  text-align: left;
 }
 
 .view {
@@ -249,6 +289,9 @@ h3 {
 .queue-header p {
   margin-top: 5px;
   font-size: 12px;
+  max-width: 460px;
+  line-height: 1.45;
+  text-align: left;
 }
 
 .input-panel,
@@ -264,6 +307,7 @@ label {
   color: #dce1eb;
   font-size: 13px;
   font-weight: 700;
+  text-align: left;
 }
 
 input,
@@ -276,6 +320,7 @@ select {
   color: var(--text);
   padding: 0 13px;
   outline: none;
+  text-align: left;
 }
 
 input::placeholder {
@@ -317,16 +362,17 @@ select:focus {
   padding: 0 14px;
   border-radius: 8px;
   white-space: nowrap;
+  text-align: center;
 }
 
 .primary {
   color: #ffffff;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  background: var(--accent);
   box-shadow: 0 12px 24px rgba(255, 75, 110, 0.18);
 }
 
 .primary:hover:not(:disabled) {
-  filter: brightness(1.05);
+  background: #e83e61;
 }
 
 .ghost {
@@ -395,6 +441,7 @@ select:focus {
   white-space: nowrap;
   font-size: 13px;
   font-weight: 700;
+  text-align: left;
 }
 
 .queue-meta,
@@ -406,6 +453,7 @@ select:focus {
 
 .queue-meta {
   margin-top: 5px;
+  text-align: left;
 }
 
 .status-row {
@@ -427,7 +475,7 @@ select:focus {
 .progress-fill {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  background: var(--accent);
   transition: width 160ms ease;
 }
 
