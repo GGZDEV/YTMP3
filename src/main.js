@@ -67,13 +67,16 @@ async function writeOptions(options) {
 function createWindow() {
   Menu.setApplicationMenu(null);
 
+  const appIcon = path.join(app.getAppPath(), 'assets', 'icon.png');
+
   mainWindow = new BrowserWindow({
     width: 940,
     height: 700,
     resizable: false,
     maximizable: false,
     autoHideMenuBar: true,
-    backgroundColor: '#0b0d12',
+    backgroundColor: '#0d0b10',
+    icon: appIcon,
     title: 'YTMP3',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),

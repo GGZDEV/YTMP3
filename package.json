@@ -28,10 +28,12 @@
     "files": [
       "src/**/*",
       "bin/**/*",
+      "assets/**/*",
       "package.json"
     ],
     "win": {
-      "target": "portable"
+      "target": "portable",
+      "icon": "assets/icon.ico"
     },
     "asarUnpack": [
       "node_modules/ffmpeg-static/**",
