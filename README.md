@@ -16,7 +16,7 @@ Application Windows simple pour mettre plusieurs URL YouTube en attente, choisir
 4. Selectionner le dossier `extension/`
 5. Laisser TubeDL ouvert pendant l'utilisation de l'extension
 
-L'extension envoie l'URL YouTube active a l'application locale via `http://127.0.0.1:17335`.
+L'extension ajoute aussi un bouton `Ajouter` directement sur les pages video YouTube. Ce bouton envoie l'URL active a l'application locale via `http://127.0.0.1:17335`.
 
 ## Fonctionnalites
 
