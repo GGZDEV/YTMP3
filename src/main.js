@@ -2,8 +2,11 @@ const { app, BrowserWindow, Menu, dialog, ipcMain, shell } = require('electron')
 const { spawn } = require('child_process');
 const fs = require('fs/promises');
 const fsSync = require('fs');
+const http = require('http');
 const path = require('path');
 const ffmpegStatic = require('ffmpeg-static');
+
+const BRIDGE_PORT = 17335;
 
 const DEFAULT_OPTIONS = {
   downloadDir: path.join(app.getPath('downloads'), 'TubeDL'),
@@ -16,6 +19,8 @@ const DEFAULT_OPTIONS = {
 
 let mainWindow;
 let currentProcess = null;
+let bridgeServer = null;
+let bridgeQueue = Promise.resolve();
 
 function ytDlpCommand() {
   const localBinary = path.join(app.getAppPath(), 'bin', 'yt-dlp.exe').replace('app.asar', 'app.asar.unpacked');
@@ -127,6 +132,110 @@ function sendProgress(payload) {
   mainWindow.webContents.send('download-progress', payload);
 }
 
+function isYoutubeUrl(value) {
+  try {
+    const url = new URL(value);
+    const host = url.hostname.replace(/^www\./, '');
+    return ['youtube.com', 'm.youtube.com', 'youtu.be', 'music.youtube.com'].includes(host);
+  } catch {
+    return false;
+  }
+}
+
+function sendJson(response, statusCode, payload) {
+  response.writeHead(statusCode, {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Content-Type': 'application/json; charset=utf-8'
+  });
+  response.end(JSON.stringify(payload));
+}
+
+function readRequestBody(request) {
+  return new Promise((resolve, reject) => {
+    let body = '';
+    request.on('data', (chunk) => {
+      body += chunk;
+      if (body.length > 1024 * 64) {
+        request.destroy();
+        reject(new Error('Payload too large.'));
+      }
+    });
+    request.on('end', () => resolve(body));
+    request.on('error', reject);
+  });
+}
+
+async function enqueueBridgeDownload(payload) {
+  const options = await readOptions();
+  const format = payload.format === 'mp4' ? 'mp4' : 'mp3';
+  const quality = payload.quality || options.defaultQuality[format];
+  const item = {
+    id: `brave-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+    url: payload.url,
+    format,
+    quality,
+    status: 'queued',
+    progress: 0,
+    error: null,
+    filename: null,
+    source: 'brave'
+  };
+
+  sendProgress(item);
+  bridgeQueue = bridgeQueue.then(async () => {
+    sendProgress({ id: item.id, status: 'downloading', progress: 0 });
+    const result = await runDownload(item, options);
+    sendProgress({
+      id: item.id,
+      status: result.ok ? 'done' : 'error',
+      progress: result.ok ? 100 : 0,
+      error: result.error
+    });
+  });
+
+  return item;
+}
+
+function startBridgeServer() {
+  if (bridgeServer) return;
+
+  bridgeServer = http.createServer(async (request, response) => {
+    if (request.method === 'OPTIONS') {
+      sendJson(response, 204, {});
+      return;
+    }
+
+    if (request.method === 'GET' && request.url === '/health') {
+      sendJson(response, 200, { ok: true, app: 'TubeDL' });
+      return;
+    }
+
+    if (request.method === 'POST' && request.url === '/download') {
+      try {
+        const body = await readRequestBody(request);
+        const payload = JSON.parse(body || '{}');
+
+        if (!isYoutubeUrl(payload.url)) {
+          sendJson(response, 400, { ok: false, error: 'URL YouTube invalide.' });
+          return;
+        }
+
+        const item = await enqueueBridgeDownload(payload);
+        sendJson(response, 202, { ok: true, id: item.id });
+      } catch (error) {
+        sendJson(response, 500, { ok: false, error: error.message });
+      }
+      return;
+    }
+
+    sendJson(response, 404, { ok: false, error: 'Not found.' });
+  });
+
+  bridgeServer.listen(BRIDGE_PORT, '127.0.0.1');
+}
+
 async function runDownload(item, options) {
   await ensureDownloadDir(options.downloadDir);
 
@@ -210,6 +319,7 @@ function cleanError(log) {
 app.whenReady().then(async () => {
   await writeOptions(await readOptions());
   createWindow();
+  startBridgeServer();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -222,6 +332,7 @@ app.on('window-all-closed', () => {
 
 app.on('before-quit', () => {
   if (currentProcess) currentProcess.kill();
+  if (bridgeServer) bridgeServer.close();
 });
 
 ipcMain.handle('options:get', () => readOptions());

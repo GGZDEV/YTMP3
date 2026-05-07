@@ -8,6 +8,16 @@ Application Windows simple pour mettre plusieurs URL YouTube en attente, choisir
 - En developpement : `npm start`
 - Rebuild portable : `npm run build:portable`
 
+## Extension Brave
+
+1. Ouvrir Brave sur `brave://extensions`
+2. Activer le mode developpeur
+3. Cliquer sur `Charger l'extension non empaquetee`
+4. Selectionner le dossier `extension/`
+5. Laisser TubeDL ouvert pendant l'utilisation de l'extension
+
+L'extension envoie l'URL YouTube active a l'application locale via `http://127.0.0.1:17335`.
+
 ## Fonctionnalites
 
 - Ajout de plusieurs URL avec le bouton `ADD`

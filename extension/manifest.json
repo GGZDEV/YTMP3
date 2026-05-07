@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "TubeDL",
+  "description": "Send the current YouTube page to the TubeDL desktop app.",
+  "version": "0.1.0",
+  "action": {
+    "default_title": "TubeDL",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon.png",
+      "32": "icons/icon.png",
+      "48": "icons/icon.png",
+      "128": "icons/icon.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon.png",
+    "32": "icons/icon.png",
+    "48": "icons/icon.png",
+    "128": "icons/icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:17335/*",
+    "http://localhost:17335/*"
+  ]
+}

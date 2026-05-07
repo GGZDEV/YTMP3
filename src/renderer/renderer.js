@@ -242,11 +242,14 @@ elements.optionsForm.addEventListener('submit', async (event) => {
 });
 
 window.ytmp3.onDownloadProgress((payload) => {
-  state.queue = state.queue.map((item) => (
-    item.id === payload.id
-      ? { ...item, ...payload }
-      : item
-  ));
+  const exists = state.queue.some((item) => item.id === payload.id);
+  state.queue = exists
+    ? state.queue.map((item) => (
+      item.id === payload.id
+        ? { ...item, ...payload }
+        : item
+    ))
+    : [...state.queue, payload];
   renderQueue();
 });
 
